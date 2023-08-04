@@ -35,6 +35,8 @@ namespace http
 		int startServer();
 		void clostServer();
 		string buildResponse();
+		void startListen();
+		void acceptConnection(int &new_socket);
 	};
 }
 
