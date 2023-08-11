@@ -45,7 +45,7 @@ namespace HDE
 
 	void SimpleSocket::set_connection(int c)
 	{
-		connection = c;
+		this->connection = c;
 	}
 
 }
