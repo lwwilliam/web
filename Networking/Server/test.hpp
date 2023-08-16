@@ -16,7 +16,7 @@ namespace HDE
 		void responder();
 	public:
 		test(/* args */);
-		~test();
+		// ~test();
 		void launch();
 	};
 }

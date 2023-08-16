@@ -5,8 +5,8 @@ namespace HDE
 	ConnectingSocket::ConnectingSocket(int domain, int service, int protocol, int port, u_long interface) :
 		SimpleSocket(domain, service, protocol, port, interface)
 	{
-		set_connection(connect_to_network(get_sock(), get_adddress()));
-		test_connection(get_connection());
+		connect_to_network(get_sock(), get_adddress());
+		test_connection(this->connecting);
 
 	}
 	
@@ -14,8 +14,14 @@ namespace HDE
 	// {	
 	// }
 
-	int ConnectingSocket::connect_to_network(int sock, struct sockaddr_in address)
+	void ConnectingSocket::connect_to_network(int sock, struct sockaddr_in address)
 	{
-		return (connect(sock, (struct sockaddr *)&address, sizeof(address)));
+		// return (connect(sock, (struct sockaddr *)&address, sizeof(address)));
+		this->connecting = connect(sock, (struct sockaddr *)&address, sizeof(address));
+	}
+
+	int ConnectingSocket::get_connecting()
+	{
+		return (this->connecting);
 	}
 }
