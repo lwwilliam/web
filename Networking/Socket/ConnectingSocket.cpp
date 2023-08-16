@@ -20,7 +20,7 @@ namespace HDE
 		this->connecting = connect(sock, (struct sockaddr *)&address, sizeof(address));
 	}
 
-	int ConnectingSocket::get_connecting()
+	int Connecting::get_connecting()
 	{
 		return (this->connecting);
 	}
