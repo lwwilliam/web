@@ -8,11 +8,11 @@ namespace HDE
 	class BindingSocket : public SimpleSocket
  	{
 	private:
-		/* data */
+		int binding;
+		void connect_to_network(int sock, struct sockaddr_in address);
 	public:
 		BindingSocket(int domain, int service, int protocol, int port, u_long interface);
-		~BindingSocket();
-		int connect_to_network(int sock, struct sockaddr_in address);
+		// ~BindingSocket();
 	};
 	
 }

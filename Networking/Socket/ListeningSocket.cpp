@@ -10,13 +10,13 @@ namespace HDE
 		test_connection(this->listening);
 	}
 	
-	ListeningSocket::~ListeningSocket()
-	{
-	}
+	// ListeningSocket::~ListeningSocket()
+	// {
+	// }
 
 	void ListeningSocket::startlisten()
 	{
-		this->listening = listen(get_sock(), backlog);
+		this->listening = listen(get_sock(), this->backlog);
 	}
 
 	int ListeningSocket::get_backlog()

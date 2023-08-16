@@ -1,5 +1,5 @@
-#ifndef WEBSERV_HPP
-#define WEBSERV_HPP
+#ifndef HDESOCKETS_HPP
+#define HDESOCKETS_HPP
 
 #include "SimpleSocket.hpp"
 

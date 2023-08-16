@@ -10,9 +10,9 @@ namespace HDE
 
 	}
 	
-	ConnectingSocket::~ConnectingSocket()
-	{	
-	}
+	// ConnectingSocket::~ConnectingSocket()
+	// {	
+	// }
 
 	int ConnectingSocket::connect_to_network(int sock, struct sockaddr_in address)
 	{

@@ -13,13 +13,15 @@ namespace HDE
 		this->sock = socket(domain, service, protocol);
 		test_connection(this->sock);
 		//Establish Connection
-		this->connection = connect_to_network(this->sock, this->address);
-		test_connection(connection);
+		// std::cout << "run1" << std::endl;
+		// this->connection = connect_to_network(this->sock, this->address);
+		// std::cout << "run2" << std::endl;
+		// test_connection(connection);
 	}
 
-	SimpleSocket::~SimpleSocket()
-	{
-	}
+	// SimpleSocket::~SimpleSocket()
+	// {
+	// }
 
 	void SimpleSocket::test_connection(int test)
 	{
@@ -38,14 +40,14 @@ namespace HDE
 	{
 		return (this->sock);
 	}
-	int  SimpleSocket::get_connection()
-	{
-		return (this->connection);
-	}
+	// int  SimpleSocket::get_connection()
+	// {
+	// 	return (this->connection);
+	// }
 
-	void SimpleSocket::set_connection(int c)
-	{
-		this->connection = c;
-	}
+	// void SimpleSocket::set_connection(int c)
+	// {
+	// 	this->connection = c;
+	// }
 
 }

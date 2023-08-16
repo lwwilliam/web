@@ -19,21 +19,23 @@ namespace HDE
 	class SimpleSocket
 	{
 	private:
-		struct sockaddr_in address;
+		// int connection;
 		int sock;
-		int connection;
+		struct sockaddr_in address;
 		
 	public:
 		SimpleSocket(int domain, int service, int protocol, int port, u_long interface);
-		~SimpleSocket();
-		virtual int connect_to_network(int sock, struct sockaddr_in address) = 0;
+		// ~SimpleSocket();
+
+		virtual void connect_to_network(int sock, struct sockaddr_in address) = 0;
+
 		void test_connection(int test);
 
-		struct sockaddr_in get_adddress();
 		int get_sock();
-		int get_connection();
+		struct sockaddr_in get_adddress();
+		// int get_connection();
 
-		void set_connection(int c);
+		// void set_connection(int c);
 	};
 
 }
