@@ -1,8 +1,6 @@
 #ifndef HDENETWORKING_HPP
 #define HDENETWORKING_HPP
 
-#include "Socket/hdesockets.hpp"
-
-
+#include "Socket/Sockets.hpp"
 
 #endif
