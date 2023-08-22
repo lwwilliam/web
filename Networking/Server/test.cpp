@@ -23,7 +23,7 @@ namespace HDE
 
 	void test::responder()
 	{
-		char *hello = "Hello from server";
+		char *hello = "Hello from serverdasdasd";
 		write (this->newsocket, hello, strlen (hello));
 		close(this->newsocket);
 	}
