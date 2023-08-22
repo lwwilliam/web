@@ -45,10 +45,18 @@ namespace conf
 	class ServerConfig
 	{
 		public:
-			ServerConfig();
+			ServerConfig(std::ifstream *file, int start, int end);
 			ServerConfig(const ServerConfig &server_config);
 			ServerConfig &operator = (const ServerConfig &server_config);
 			~ServerConfig();
+			//setter
+			void	set_listen(string text);
+			void	set_root(string text);
+			void	set_index(string text);
+			void	set_server_name(string text);
+			void	set_client_max(string text);
+			void	set_error(string text);
+			void	set_cgi(string text);
 
 
 		private:
@@ -56,6 +64,7 @@ namespace conf
 			std::string							root;
 			std::string							index;
 			std::string							server_name;
+			std::string							client_max;
 
 			std::map<string, string>			error;
 			std::map<string, string>			cgi;
@@ -81,15 +90,16 @@ namespace conf
 
 	class Config
 	{
+		private:
+			std::vector<ServerConfig>	servers;
 		public:
 			Config();
 			// Construtor to handle the whole config file
 			Config(std::string filename);
-			// Config(const Config &config);
-			// Config &operator = (const Config &config);
-			// ~Config();
-		private:
-			// std::vector<ServerConfig>	servers;
+			Config(const Config &config);
+			Config &operator=(const Config &config);
+			~Config();
+			void	config_handle(std::ifstream *file);
 	};
 }
 

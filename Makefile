@@ -4,7 +4,7 @@ CDIR = srcs
 
 ODIR = obj
 
-SRCS_C = webserv.cpp Config.cpp
+SRCS_C = webserv.cpp Config.cpp ServerConfig.cpp
 
 SRCS_O := $(addprefix $(ODIR)/,$(notdir $(SRCS_C:.cpp=.o)))
 
