@@ -41,6 +41,7 @@ namespace conf
 			ServerLocation(const ServerLocation &L);
 			ServerLocation &operator = (const ServerLocation &L);
 			~ServerLocation();
+			std::map<string, std::vector<string> > get_rules();
 		private:
 			std::map<string, std::vector<string> >	rules;
 	};

@@ -116,6 +116,20 @@ namespace conf
 		return (this->client_max);
 	}
 
+	std::map<string, string>	ServerConfig::get_error()
+	{
+		return(this->error);
+	}
+
+	std::map<string, string>	ServerConfig::get_cgi()
+	{
+		return(this->cgi);
+	}
+
+	std::map<string, ServerLocation>	ServerConfig::get_locations()
+	{
+		return(this->locations);
+	}
 
 	ServerConfig::ServerConfig(std::ifstream *file, int start, int end)
 	{
@@ -125,16 +139,16 @@ namespace conf
 			&conf::ServerConfig::set_root, &conf::ServerConfig::set_index, \
 			&conf::ServerConfig::set_server_name, &conf::ServerConfig::set_client_max, \
 			&conf::ServerConfig::set_error, &conf::ServerConfig::set_cgi};
-		string arr[] = {"listen	", "root	", "index	", "server_name	", \
-			"client_max_body_size	", "error_page	", "cgi_script	"};
+		string arr[] = {"listen", "root", "index", "server_name", \
+			"client_max_body_size", "error_page", "cgi_script"};
 		while (std::getline(*file, text))
 		{
 			if (text.find('#') == std::string::npos)
 			{
 				i = 0;
-				while (i < 6 && text.find(arr[i]) == std::string::npos)
+				while (i < 7 && text.find(arr[i]) == std::string::npos)
 					i++;
-				if (i < 6)
+				if (i < 7)
 					(this->*funct[i])(text);
 				if (this->server_name.empty())
 					this->server_name = "localhost";
@@ -144,25 +158,7 @@ namespace conf
 				}
 			}
 			if (text[0] == '}')
-			{
-				this->root = "test";
-				//testing -->
-				std::vector<string> list = get_listen();
-				for (size_t a = 0; a < list.size(); ++a)
-					cout << "port : " << list[a] << endl;
-				cout << "root : " << get_root() << endl;
-				cout << "index : " << get_index() << endl;
-				cout << "server_name : " << get_server_name() << endl;
-				cout << "client_max : " << get_client_max() << endl;
-				cout << endl;
-				// std::map<string, string>::iterator it;
-				// for (it = error.begin(); it != error.end(); it++)
-				// 	cout << it->first << " , " << it->second << endl;
-				// for (it = cgi.begin(); it != cgi.end(); it++)
-				// 	cout << it->first << " , " << it->second << endl;
-				// <--
 				break;
-			}
 		}
 
 	}
@@ -176,7 +172,14 @@ namespace conf
 	{
 		if (this != &server_config)
 		{
-
+			this->listen = server_config.listen;
+			this->root = server_config.root;
+			this->index = server_config.index;
+			this->server_name = server_config.server_name;
+			this->client_max = server_config.client_max;
+			this->error = server_config.error;
+			this->cgi = server_config.cgi;
+			this->locations = server_config.locations;
 		}
 		return (*this);
 	}
