@@ -61,8 +61,25 @@ namespace conf
 	ServerLocation::~ServerLocation()
 	{}
 
-	std::map<string, std::vector<string> > ServerLocation::get_rules()
+	const std::map<string, std::vector<string> > &ServerLocation::get_rules() const
 	{
 		return(this->rules);
+	}
+
+	std::ostream &operator << (std::ostream &outs, const ServerLocation &server_location)
+	{
+		ServerLocation::rules_map::iterator rules_it;
+		ServerLocation::rules_map rules_map = server_location.get_rules();
+		for (rules_it = rules_map.begin(); rules_it != rules_map.end(); rules_it++)
+		{
+			outs << BLUE "Key : " RESET << rules_it->first;
+			std::vector<string>::iterator value_it;
+			std::vector<string> value_vec = rules_it->second;
+			outs << RED "|	|Value : " RESET;
+			for (value_it = value_vec.begin(); value_it != value_vec.end(); value_it++)
+				outs << *value_it << " ";
+			outs << endl;
+		}
+		return (outs);
 	}
 }

@@ -29,32 +29,41 @@
 using std::string;
 using std::cout;
 using std::endl;
-using std::map;
-using std::vector;
+// using std::map;
+// using std::vector;
 
 namespace conf
 {
 	class ServerLocation
 	{
 		public:
+			typedef std::map<string, std::vector<string> > rules_map;
 			ServerLocation(std::ifstream *file);
 			ServerLocation(const ServerLocation &L);
 			ServerLocation &operator = (const ServerLocation &L);
 			~ServerLocation();
-			std::map<string, std::vector<string> > get_rules();
+
+			//getter
+			const std::map<string, std::vector<string> > &get_rules() const;
 		private:
 			std::map<string, std::vector<string> >	rules;
 	};
 
+	std::ostream &operator << (std::ostream &outs, const ServerLocation &server_location);
+
 	class ServerConfig
 	{
 		public:
+			typedef	std::vector<string>::iterator		portIter;
+			typedef std::map<string, ServerLocation>	locationMap;
+
 			ServerConfig(std::ifstream *file, int start, int end);
 			ServerConfig(const ServerConfig &server_config);
 			ServerConfig &operator = (const ServerConfig &server_config);
 			~ServerConfig();
+
 			//setter
-			void	set_listen(string text);
+			void	set_port(string text);
 			void	set_root(string text);
 			void	set_index(string text);
 			void	set_server_name(string text);
@@ -64,17 +73,17 @@ namespace conf
 			void	location_name(string text, std::ifstream *file);
 
 			//getter
-			std::vector<string>	get_listen();
-			string	get_root();
-			string	get_index();
-			string	get_server_name();
-			string	get_client_max();
-			std::map<string, string>	get_error();
-			std::map<string, string>	get_cgi();
-			std::map<string, ServerLocation>	get_locations();
+			string	get_root() const;
+			string	get_index() const;
+			string	get_server_name() const;
+			string	get_client_max() const;
+			const std::vector<string>			&get_port() const;
+			const std::map<string, string>	&get_error() const;
+			const std::map<string, string>	&get_cgi() const;
+			const std::map<string, ServerLocation>	&get_locations() const;
 
 		private:
-			std::vector<string>					listen;
+			std::vector<string>					port;
 			string								root;
 			string								index;
 			string								server_name;
@@ -88,24 +97,10 @@ namespace conf
 
 	};
 
-	class Error : public std::exception
-	{
-		private:
-			const char* message;
-
-		public:
-			Error(const char* msg) : message(msg) {}
-
-			virtual const char* what() const throw()
-			{
-				return message;
-			}
-	};
+	std::ostream &operator << (std::ostream &outs, const ServerConfig &server_config);
 
 	class Config
 	{
-		private:
-			std::vector<ServerConfig>	servers;
 		public:
 			Config();
 			// Construtor to handle the whole config file
@@ -114,10 +109,26 @@ namespace conf
 			Config &operator=(const Config &config);
 			~Config();
 			void	config_handle(std::ifstream *file);
-			// void	add_object(const ServerConfig &obj)
-			// {
-			// 	servers.push_back(obj);
-			// }
+
+			//getter
+			const std::vector<ServerConfig> &get_servers() const;
+		private:
+			std::vector<ServerConfig>	servers;
+	};
+
+	std::ostream &operator << (std::ostream &outs, const Config &config);
+
+	class Error : public std::exception
+	{
+		public:
+			Error(const char* msg) : message(msg) {}
+
+			virtual const char* what() const throw()
+			{
+				return message;
+			}
+		private:
+			const char* message;
 	};
 }
 

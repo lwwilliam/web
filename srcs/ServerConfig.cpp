@@ -2,7 +2,7 @@
 
 namespace conf
 {
-	void ServerConfig::set_listen(string text)
+	void ServerConfig::set_port(string text)
 	{
 		string res, word;
 
@@ -11,7 +11,7 @@ namespace conf
 		res = text.substr(listenPos + 7, semicolonPos - listenPos - 7);
 		std::stringstream ss(res);
 		while (std::getline(ss, word, ' '))
-			this->listen.push_back(word);
+			this->port.push_back(word);
 	}
 
 	void	ServerConfig::set_root(string text)
@@ -91,42 +91,42 @@ namespace conf
 		this->locations.insert(std::make_pair(var2, ServerLocation(file)));
 	}
 
-	std::vector<string>	ServerConfig::get_listen()
+	const std::vector<string>	&ServerConfig::get_port() const
 	{
-		return(this->listen);
+		return(this->port);
 	}
 
-	string	ServerConfig::get_root()
+	string	ServerConfig::get_root() const
 	{
 		return (this->root);
 	}
 
-	string	ServerConfig::get_index()
+	string	ServerConfig::get_index() const
 	{
 		return (this->index);
 	}
 
-	string	ServerConfig::get_server_name()
+	string	ServerConfig::get_server_name() const
 	{
 		return (this->server_name);
 	}
 
-	string	ServerConfig::get_client_max()
+	string	ServerConfig::get_client_max() const
 	{
 		return (this->client_max);
 	}
 
-	std::map<string, string>	ServerConfig::get_error()
+	const std::map<string, string>	&ServerConfig::get_error() const
 	{
 		return(this->error);
 	}
 
-	std::map<string, string>	ServerConfig::get_cgi()
+	const std::map<string, string>	&ServerConfig::get_cgi() const
 	{
 		return(this->cgi);
 	}
 
-	std::map<string, ServerLocation>	ServerConfig::get_locations()
+	const std::map<string, ServerLocation>	&ServerConfig::get_locations() const
 	{
 		return(this->locations);
 	}
@@ -135,7 +135,7 @@ namespace conf
 	{
 		string text;
 		int i;
-		void (ServerConfig::*funct[])(string text) = {&conf::ServerConfig::set_listen, \
+		void (ServerConfig::*funct[])(string text) = {&conf::ServerConfig::set_port, \
 			&conf::ServerConfig::set_root, &conf::ServerConfig::set_index, \
 			&conf::ServerConfig::set_server_name, &conf::ServerConfig::set_client_max, \
 			&conf::ServerConfig::set_error, &conf::ServerConfig::set_cgi};
@@ -172,7 +172,7 @@ namespace conf
 	{
 		if (this != &server_config)
 		{
-			this->listen = server_config.listen;
+			this->port = server_config.port;
 			this->root = server_config.root;
 			this->index = server_config.index;
 			this->server_name = server_config.server_name;
@@ -185,7 +185,38 @@ namespace conf
 	}
 
 	ServerConfig::~ServerConfig()
-	{
+	{}
 
+	std::ostream &operator << (std::ostream &outs, const ServerConfig &server_config)
+	{
+		std::vector<string>				ports = server_config.get_port();
+		ServerConfig::portIter			it, end = ports.end();
+
+		outs << YELLOW "Server Name : " RESET << server_config.get_server_name() << endl;
+
+		for (it = ports.begin(); it != end; ++it)
+			outs << YELLOW "Port : " RESET << *it << endl;
+		
+		outs << YELLOW "Root : " RESET << server_config.get_root() << endl;
+		outs << YELLOW "Index : " RESET << server_config.get_index() << endl;
+		outs << YELLOW "Client_max : " RESET << server_config.get_client_max() << endl;
+
+		std::map<string, string>::iterator map_it;
+		std::map<string, string> tmp = server_config.get_error();
+		for (map_it = tmp.begin(); map_it != tmp.end(); map_it++)
+			outs << YELLOW "Error : " RESET << map_it->first << "   " << map_it->second << endl;
+		tmp = server_config.get_cgi(); 
+		for (map_it = tmp.begin(); map_it != tmp.end(); map_it++)
+			outs << YELLOW "CGI : " RESET << map_it->first << "   " << map_it->second << endl;
+		
+		ServerConfig::locationMap::iterator location_it;
+		ServerConfig::locationMap location_map = server_config.get_locations();
+		for (location_it = location_map.begin(); location_it != location_map.end(); location_it++)
+		{
+			outs << YELLOW "Location : " RESET << location_it->first << endl;
+			outs << (*location_it).second << endl;
+		}
+
+		return (outs);
 	}
 }
