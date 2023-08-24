@@ -131,7 +131,7 @@ namespace conf
 		return(this->locations);
 	}
 
-	ServerConfig::ServerConfig(std::ifstream *file, int start, int end)
+	ServerConfig::ServerConfig(std::ifstream *file)
 	{
 		string text;
 		int i;
@@ -213,7 +213,7 @@ namespace conf
 		ServerConfig::locationMap location_map = server_config.get_locations();
 		for (location_it = location_map.begin(); location_it != location_map.end(); location_it++)
 		{
-			outs << YELLOW "Location : " RESET << location_it->first << endl;
+			outs << BLACK "Location : " RESET << location_it->first << endl;
 			outs << (*location_it).second << endl;
 		}
 
